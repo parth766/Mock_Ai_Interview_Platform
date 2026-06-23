@@ -1,11 +1,35 @@
 import React, { ReactNode } from "react";
+import Link from "next/link";
+import Image from "next/image";
+import { isAuthenticated } from "@/lib/actions/auth.action";
+import { redirect } from "next/navigation";
 
-export default function RootLayout({
-                                       children,
-                                   }: {
-    children: ReactNode;
-}) {
+// Fix 1: Added the assignment '=' and the arrow symbol '=>'
+const RootLayout = async ({ children }: { children: ReactNode }) => {
+    const isUserAuthenticated = await isAuthenticated();
+
+    if (!isUserAuthenticated) {
+        redirect('/sign-in');
+    }
+
     return (
-     <div>{children}</div>
+        <div className="root-layout">
+            <nav>
+                <Link href="/" className="flex items-center gap-2">
+                    <Image
+                        src="/logo.svg"
+                        alt="Logo"
+                        width={38}
+                        height={32}
+                    />
+                    <h2 className="text-primary-100">PrepWise</h2>
+                </Link>
+            </nav>
+
+            {children}
+        </div>
     );
-}
+};
+
+// Fix 2: Added the mandatory default export for Next.js routing
+export default RootLayout;

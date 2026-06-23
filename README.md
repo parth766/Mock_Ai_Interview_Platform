@@ -53,17 +53,6 @@ Generate interview questions tailored to:
 .PostCSS
 .Git & GitHub
 
-📂  𝐏𝐫𝐨𝐣𝐞𝐜𝐭 𝐒𝐭𝐫𝐮𝐜𝐭𝐮𝐫𝐞
-
-src
-├── app                 # App Router pages and API routes
-├── components          # Reusable UI components
-├── firebase            # Firebase Admin & Client SDK
-├── lib                 # Business logic and utilities
-├── constants           # Application constants
-├── public              # Static assets
-└── types               # TypeScript type definitions
-
 ⚙️ 𝐄𝐧𝐯𝐢𝐫𝐨𝐧𝐦𝐞𝐧𝐭 𝐂𝐨𝐧𝐟𝐢𝐠𝐮𝐫𝐚𝐭𝐢𝐨𝐧
 Create a .env.local file:
 

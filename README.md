@@ -80,7 +80,7 @@ mock_ai_interview/
 │   ├── Agent.tsx
 │   ├── AuthForm.tsx
 │   ├── DisplayTechIcons.tsx
-│   ├── FormFeild.tsx
+│   ├── FormField.tsx
 │   └── InterviewCard.tsx
 ├── constants/
 │   └── index.ts
@@ -88,10 +88,10 @@ mock_ai_interview/
 │   ├── admin.ts
 │   └── client.ts
 ├── lib/
-│   └── actions/
-│       ├── auth.action.ts
-│       ├── utils.ts
-│       └── vapi.sdk.ts
+│   ├── actions/
+│   │   └── auth.action.ts
+│   ├── utils.ts
+│   └── vapi.sdk.ts
 ├── public/
 ├── types/
 ├── .env.local
@@ -101,6 +101,7 @@ mock_ai_interview/
 ├── next.config.ts
 ├── package.json
 └── tsconfig.json
+
 
 ⚙️ 𝐄𝐧𝐯𝐢𝐫𝐨𝐧𝐦𝐞𝐧𝐭 𝐂𝐨𝐧𝐟𝐢𝐠𝐮𝐫𝐚𝐭𝐢𝐨𝐧
 Create a .env.local file:

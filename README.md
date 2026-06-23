@@ -55,53 +55,14 @@ Generate interview questions tailored to:
 
 📂  𝐏𝐫𝐨𝐣𝐞𝐜𝐭 𝐒𝐭𝐫𝐮𝐜𝐭𝐮𝐫𝐞
 
-mock_ai_interview/
-├── app/
-│   ├── (auth)/
-│   │   ├── sign-in/
-│   │   ├── sign-up/
-│   │   └── layout.tsx
-│   ├── (root)/
-│   │   ├── interview/
-│   │   │   └── page.tsx
-│   │   ├── layout.tsx
-│   │   └── page.tsx
-│   ├── api/
-│   │   └── vapi/
-│   ├── favicon.ico
-│   ├── globals.css
-│   └── layout.tsx
-├── components/
-│   ├── ui/
-│   │   ├── button.tsx
-│   │   ├── form.tsx
-│   │   ├── input.tsx
-│   │   └── sonner.tsx
-│   ├── Agent.tsx
-│   ├── AuthForm.tsx
-│   ├── DisplayTechIcons.tsx
-│   ├── FormField.tsx
-│   └── InterviewCard.tsx
-├── constants/
-│   └── index.ts
-├── firebase/
-│   ├── admin.ts
-│   └── client.ts
-├── lib/
-│   ├── actions/
-│   │   └── auth.action.ts
-│   ├── utils.ts
-│   └── vapi.sdk.ts
-├── public/
-├── types/
-├── .env.local
-├── .gitignore
-├── components.json
-├── eslint.config.mjs
-├── next.config.ts
-├── package.json
-└── tsconfig.json
-
+src
+├── app                 # App Router pages and API routes
+├── components          # Reusable UI components
+├── firebase            # Firebase Admin & Client SDK
+├── lib                 # Business logic and utilities
+├── constants           # Application constants
+├── public              # Static assets
+└── types               # TypeScript type definitions
 
 ⚙️ 𝐄𝐧𝐯𝐢𝐫𝐨𝐧𝐦𝐞𝐧𝐭 𝐂𝐨𝐧𝐟𝐢𝐠𝐮𝐫𝐚𝐭𝐢𝐨𝐧
 Create a .env.local file:

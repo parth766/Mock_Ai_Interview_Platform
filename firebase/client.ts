@@ -22,4 +22,5 @@ const app = !getApps.length ? initializeApp(firebaseConfig) : getApp();
 export const auth = getAuth(app);
 const db = getFirestore(app);
 
-// at the time of running server the api key to be generated again for now i have done the changes 
+// at the time of running server the api key to be generated again for now i have done the changes from the firebase web hosting 
+

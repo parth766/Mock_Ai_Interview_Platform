@@ -18,7 +18,7 @@ import { Form } from "@/components/ui/form";
 import { Button } from "@/components/ui/button";
 
 import { signIn, signUp } from "@/lib/actions/auth.action";
-import FormField from "@/components/FormFeild"; // Verified local mapping matching disk spellcheck
+import FormField from "@/components/FormField";
 
 // Fixes: Explicitly defines FormType so the compiler doesn't fail on type tracking
 type FormType = "sign-in" | "sign-up";
@@ -92,9 +92,10 @@ const AuthForm = ({ type }: { type: FormType }) => {
                 toast.success("Signed in successfully.");
                 router.push("/");
             }
-        } catch (error) {
+        } catch (error: any) {
             console.error(error);
-            toast.error(error instanceof Error ? error.message : "An unexpected authentication error occurred.");
+            const msg = error?.message || "An unexpected authentication error occurred.";
+            toast.error(msg);
         }
     };
 
@@ -141,7 +142,7 @@ const AuthForm = ({ type }: { type: FormType }) => {
                             type="password"
                         />
 
-                        <Button className="btn" type="submit">
+                        <Button className="btn w-full" type="submit">
                             {isSignIn ? "Sign In" : "Create an Account"}
                         </Button>
                     </form>

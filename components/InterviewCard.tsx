@@ -1,23 +1,38 @@
-import { useState, useEffect } from 'react'; // 1. Import hooks
+"use client";
+
+import { useState, useEffect } from 'react';
 import dayjs from 'dayjs';
 import Image from 'next/image';
 import { getRandomInterviewCover } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
+
 import Link from "next/link";
 import DisplayTechIcons from "@/components/DisplayTechIcons";
 
-const InterviewCard = ({ interviewId, userId, role, techstack, type, createdAt }: InterviewCardProps) => {
-    const feedback = null as Feedback | null;
-    const normalizedType = /mix/gi.test(type) ? 'Mixed' : type;
-    const formattedDate = dayjs(feedback?.createdAt || createdAt).format('YYYY-MM-DD');
+interface CardProps extends InterviewCardProps {
+    feedbackData?: Feedback | null;
+}
 
-    // 2. Initialize state with a fallback placeholder image
+const InterviewCard = ({ interviewId, userId, role, techstack, type, createdAt, feedbackData }: CardProps) => {
+    const [feedback, setFeedback] = useState<Feedback | null>(feedbackData || null);
+    const normalizedType = /mix/gi.test(type) ? 'Mixed' : type;
+    const formattedDate = dayjs(feedback?.createdAt || createdAt || new Date()).format('YYYY-MM-DD');
+
     const [coverImage, setCoverImage] = useState<string>("/covers/placeholder.png");
 
-    // 3. Assign the random image only AFTER the client hydrates
     useEffect(() => {
         setCoverImage(getRandomInterviewCover());
-    }, []);
+
+        if (!feedbackData && interviewId) {
+            // Attempt client side fetch for feedback score
+            fetch(`/api/interview/feedback?interviewId=${interviewId}`)
+                .then(res => res.json())
+                .then(data => {
+                    if (data?.feedback) setFeedback(data.feedback);
+                })
+                .catch(() => {});
+        }
+    }, [interviewId, feedbackData]);
 
     return (
         <div className="card-border w-[360px] max-sm:w-full min-h-96">
@@ -27,7 +42,6 @@ const InterviewCard = ({ interviewId, userId, role, techstack, type, createdAt }
                         <p className="badge-text">{normalizedType}</p>
                     </div>
 
-                    {/* 4. Use the state variable here */}
                     <Image
                         src={coverImage}
                         alt="cover image"
@@ -48,12 +62,12 @@ const InterviewCard = ({ interviewId, userId, role, techstack, type, createdAt }
 
                         <div className="flex flex-row gap-2 items-center">
                             <Image src="/star.svg" alt="star" width={22} height={22} />
-                            <p>{feedback?.totalScore || '---'}/100</p>
+                            <p>{feedback?.totalScore ? `${feedback.totalScore}/100` : '---/100'}</p>
                         </div>
                     </div>
 
                     <p className="line-clamp-2 mt-5">
-                        {feedback?.finalAssessment || "You haven't taken an interview yet. Take it now to improve your skills"}
+                        {feedback?.finalAssessment || "Custom AI interview session ready to launch."}
                     </p>
                 </div>
 
@@ -61,8 +75,8 @@ const InterviewCard = ({ interviewId, userId, role, techstack, type, createdAt }
                     <DisplayTechIcons techStack={techstack} />
 
                     <Button className="btn-primary">
-                        <Link href={feedback ? `/interview/${interviewId}/feedback` : `/interview/${interviewId}`}>
-                            {feedback ? 'Check feedback' : 'View Interview'}
+                        <Link href={`/interview/${interviewId || "1"}`}>
+                            Start Interview
                         </Link>
                     </Button>
                 </div>
@@ -71,4 +85,4 @@ const InterviewCard = ({ interviewId, userId, role, techstack, type, createdAt }
     );
 };
 
-export default InterviewCard;
+export default InterviewCard;

@@ -1,20 +1,25 @@
 import React, { ReactNode } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { isAuthenticated } from "@/lib/actions/auth.action";
+import { getCurrentUser, signOut } from "@/lib/actions/auth.action";
 import { redirect } from "next/navigation";
 
-// Fix 1: Added the assignment '=' and the arrow symbol '=>'
 const RootLayout = async ({ children }: { children: ReactNode }) => {
-    const isUserAuthenticated = await isAuthenticated();
+    const user = await getCurrentUser();
 
-    if (!isUserAuthenticated) {
+    if (!user) {
         redirect('/sign-in');
     }
 
+    const handleSignOut = async () => {
+        'use server';
+        await signOut();
+        redirect('/sign-in');
+    };
+
     return (
         <div className="root-layout">
-            <nav>
+            <nav className="flex justify-between items-center w-full px-4 py-3 bg-[#0d0e12] border-b border-white/10 mb-6">
                 <Link href="/" className="flex items-center gap-2">
                     <Image
                         src="/logo.svg"
@@ -22,14 +27,28 @@ const RootLayout = async ({ children }: { children: ReactNode }) => {
                         width={38}
                         height={32}
                     />
-                    <h2 className="text-primary-100">PrepWise</h2>
+                    <h2 className="text-primary-100 font-bold text-xl">PrepWise</h2>
                 </Link>
+
+                <div className="flex items-center gap-4">
+                    <div className="hidden sm:flex items-center gap-2 bg-white/5 px-3 py-1.5 rounded-full border border-white/10">
+                        <Image src="/user-avatar.png" alt="Avatar" width={24} height={24} className="rounded-full object-cover" />
+                        <span className="text-xs text-gray-300 font-medium">{user.name}</span>
+                    </div>
+
+                    <form action={handleSignOut}>
+                        <button type="submit" className="text-xs bg-white/10 hover:bg-white/20 text-gray-300 hover:text-white px-3 py-1.5 rounded-lg border border-white/10 transition-all cursor-pointer">
+                            Sign Out
+                        </button>
+                    </form>
+                </div>
             </nav>
 
-            {children}
+            <main className="w-full">
+                {children}
+            </main>
         </div>
     );
 };
 
-// Fix 2: Added the mandatory default export for Next.js routing
-export default RootLayout;
+export default RootLayout;

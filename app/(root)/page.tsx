@@ -1,13 +1,16 @@
-"use client";
-
 import React from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
-import {dummyInterviews} from "@/constants";
 import InterviewCard from "@/components/InterviewCard";
+import { getLatestInterviews } from "@/lib/actions/interview.action";
 
-const Page = () => {
+export const dynamic = 'force-dynamic';
+
+
+export default async function Page() {
+  const interviews = await getLatestInterviews();
+
   return (
       <>
         {/* Hero Section */}
@@ -17,12 +20,12 @@ const Page = () => {
               Get Interview Ready with AI-Powered practice & feedback
             </h2>
 
-            <p className="text-lg">
-              Practice on real interview questions & get instant feedback
+            <p className="text-lg text-gray-300">
+              Practice on tailored interview questions & get instant Gemini AI evaluation scores
             </p>
 
             <Button asChild className="btn-primary max-sm:w-full">
-              <Link href="/interview">Start an Interview</Link>
+              <Link href="/interview">🚀 Start Custom AI Interview</Link>
             </Button>
           </div>
 
@@ -37,29 +40,25 @@ const Page = () => {
 
         {/* Your Interviews */}
         <section className="flex flex-col gap-6 mt-8">
-          <h2>Your Interviews</h2>
-
-          <div className="interviews-section"></div>
-
-            {dummyInterviews.map((interview) => (
-                <InterviewCard {...interview} key = {interview.id} />
-            ))}
-        </section>
-
-        {/* Take Interview */}
-        <section className="flex flex-col gap-6 mt-8">
-          <h2>Take an Interview</h2>
+          <h2>Your Recent Interviews</h2>
 
           <div className="interviews-section">
-              {dummyInterviews.map((interview) => (
-                  <InterviewCard {...interview} key ={interview.id} />
-
-                  // <p>You haven&ops;t taken any interviews yet</p>
-              ))}
+            {interviews && interviews.length > 0 ? (
+              interviews.map((interview) => (
+                <InterviewCard
+                  key={interview.id}
+                  interviewId={interview.id}
+                  role={interview.role}
+                  type={interview.type}
+                  techstack={Array.isArray(interview.techstack) ? interview.techstack : [interview.techstack]}
+                  createdAt={interview.createdAt}
+                />
+              ))
+            ) : (
+              <p className="text-gray-400 text-sm">You haven&apos;t taken any mock interviews yet. Click &apos;Start Custom AI Interview&apos; above!</p>
+            )}
           </div>
         </section>
       </>
   );
-};
-
-export default Page;
+}

@@ -5,6 +5,11 @@ import { Button } from "@/components/ui/button";
 import InterviewCard from "@/components/InterviewCard";
 import { getLatestInterviews } from "@/lib/actions/interview.action";
 
+import HeroSection from "@/components/HeroSection";
+import ScrollFeatureShowcase from "@/components/ScrollFeatureShowcase";
+import FAQSection from "@/components/FAQSection";
+import Footer from "@/components/Footer";
+
 export const dynamic = 'force-dynamic';
 
 
@@ -13,30 +18,11 @@ export default async function Page() {
 
   return (
       <>
-        {/* Hero Section */}
-        <section className="card-cta">
-          <div className="flex flex-col gap-6 max-w-lg">
-            <h2>
-              Get Interview Ready with AI-Powered practice & feedback
-            </h2>
+        {/* AI Practice Studio Typewriter Hero */}
+        <HeroSection />
 
-            <p className="text-lg text-gray-300">
-              Practice on tailored interview questions & get instant Gemini AI evaluation scores
-            </p>
-
-            <Button asChild className="btn-primary max-sm:w-full">
-              <Link href="/interview">🚀 Start Custom AI Interview</Link>
-            </Button>
-          </div>
-
-          <Image
-              src="/robot.png"
-              alt="robo-dude"
-              width={400}
-              height={400}
-              className="max-sm:hidden"
-          />
-        </section>
+        {/* Scroll Motion Feature Showcase */}
+        <ScrollFeatureShowcase />
 
         {/* Your Interviews */}
         <section className="flex flex-col gap-6 mt-8">
@@ -59,6 +45,12 @@ export default async function Page() {
             )}
           </div>
         </section>
+
+        {/* FAQs Section */}
+        <FAQSection />
+
+        {/* Footer Section */}
+        <Footer />
       </>
   );
 }
